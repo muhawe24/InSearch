@@ -7,6 +7,7 @@ package InSearch_Search;
 
 import java.awt.Image;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 import login.LoginPage;
 
@@ -242,70 +244,72 @@ public class riwayat extends javax.swing.JFrame {
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         // TODO add your handling code here:
-        /*
+        
         Connection conn = koneksi.koneksiDb();
         Statement st;
         ResultSet rs;
+        PreparedStatement ps, ps1;
+        TableModel model = jTable1.getModel();
         
         int index = jTable1.getSelectedRow();
-        TableModel model = jTable1.getModel();
-        ImageIcon image1 = (ImageIcon)model.getValueAt(index, 0);
-        Image image2 = image1.getImage().getScaledInstance(detail.gambarSampul.getWidth()
-                , detail.gambarSampul.getHeight()
-                , Image.SCALE_SMOOTH);
-        ImageIcon image3 = new ImageIcon(image2);
-        id = model.getValueAt(index, 1).toString();
-        String judul = model.getValueAt(index, 2).toString();
-        String stok = model.getValueAt(index, 3).toString();
-        String letak = model.getValueAt(index, 4).toString();
-        String penulis = null;
-        String penerbit = null;
-        String ISBN = null;
-        int tahun = 0;
-        String kategori = null;
-        String bahasa = null;
-        int halaman = 0;
-        String deskripsi = null;
-        
-        try{
-            st = conn.createStatement();
-            rs = st.executeQuery("SELECT * FROM `buku` WHERE `id_buku` = "+id+"");
-            while (rs.next()) {
-                penulis = rs.getString("penulis");
-                penerbit = rs.getString("penerbit");
-                ISBN = rs.getString("noISBN");
-                tahun = rs.getInt("tahun");
-                kategori = rs.getString("kategori");
-                bahasa = rs.getString("bahasa");
-                halaman = rs.getInt("halaman");
-                deskripsi = rs.getString("deskripsi");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+        if (index == -1) {
+            return;
         }
         
-        detail.setVisible(true);
-        detail.pack();
-        detail.setLocationRelativeTo(null);
-        detail.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        String username = jLabel2.getText();
+        int id_user = 0;
+        int id_riwayat = 0;
+        id = model.getValueAt(index, 1).toString();
+        int id_buku = getId();
         
-        detailBukuBookmarks.jLabel13.setText(LoginPage.getUsername());
-        detail.gambarSampul.setIcon(image3);
-        detail.judulTxt.setText(judul);
-        detail.penulisTxt.setText(penulis);
-        detail.penerbitTxt.setText(penerbit);
-        detail.ISBNTxt.setText(ISBN);
-        detail.TahunTxt.setText(String.valueOf(tahun));
-        detail.kategoriTxt.setText(kategori);
-        detail.bahasaTxt.setText(bahasa);
-        detail.halamanTxt.setText(String.valueOf(halaman));
-        detail.stokTxt.setText(stok);
-        detail.letakTxt.setText(letak);
-        detail.deskripsiTxt.setText(deskripsi);
+        int question = JOptionPane.showConfirmDialog(null, "Apakah anda akan menghapus riwayat ini?", "Konfirmasi", JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (question == JOptionPane.OK_OPTION) {
+            try{
+            st = conn.createStatement();
+            rs = st.executeQuery("SELECT * FROM `user` WHERE `username` = '"+username+"'");
+            while (rs.next()) {
+                id_user = rs.getInt("id_user");
+            }
+            
+            
+            boolean cekData = false;
+            try{
+                st = conn.createStatement();
+                rs = st.executeQuery("SELECT * FROM `riwayat`");
+                while (rs.next()) {
+                    if ((rs.getInt("id_user") == id_user) && (rs.getInt("id_buku") == id_buku)) {
+                        cekData = true;
+                        id_riwayat = rs.getInt("id_riwayat");
+                    }
+                }
+                
+                if (cekData == true) {
+                    try {
+                        String sql = "DELETE FROM riwayat WHERE `riwayat`.`id_user` = "+id_user+" AND `riwayat`.`id_buku` = "+id_buku+" AND `riwayat`.`id_riwayat` = "+id_riwayat;
+                        ps = conn.prepareStatement(sql);
+                        ps.executeUpdate();
+                                                
+                        JOptionPane.showMessageDialog(null, "Data berhasil dihapus dari riwayat!");
+                        
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);  
+                    }finally{
+                        populateJTable();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Data sudah diahpus");
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(Query.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } if (question == JOptionPane.CANCEL_OPTION) {
         
-        this.dispose();
-        */
-        
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     public static int getId() {

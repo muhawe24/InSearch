@@ -56,8 +56,6 @@ public class SignupPage extends javax.swing.JFrame {
         retypePasswordTxt1 = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         emailTxt = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        comboStatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sign Up");
@@ -100,15 +98,6 @@ public class SignupPage extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("Status");
-
-        comboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "...", "user", "admin" }));
-        comboStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboStatusActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -134,15 +123,11 @@ public class SignupPage extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(passwordLabel)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel4))
+                                    .addComponent(jLabel1))
                                 .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(passwordTxt1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                    .addComponent(retypePasswordTxt1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(retypePasswordTxt1)))
                             .addComponent(SignUpButton, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap(91, Short.MAX_VALUE))
         );
@@ -171,11 +156,7 @@ public class SignupPage extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(retypePasswordTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(comboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
+                .addGap(49, 49, 49)
                 .addComponent(SignUpButton)
                 .addContainerGap(51, Short.MAX_VALUE))
         );
@@ -200,7 +181,7 @@ public class SignupPage extends javax.swing.JFrame {
             try{
                 Statement st=conn.createStatement();
                 st.executeUpdate("INSERT INTO `user` (`id_user`, `Nama`, `username`, `password`, `email`, `status`) VALUES (NULL, '"
-                        + nama +"','"+ username +"','"+ password +"','"+ email +"','"+ comboStatus.getSelectedItem() +"');");
+                        + nama +"','"+ username +"','"+ password +"','"+ email +"','"+ "'user');");
                 st.close();
                 //ResultSet rs=st.executeQuery(sql);
 
@@ -234,10 +215,6 @@ public class SignupPage extends javax.swing.JFrame {
     private void emailTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailTxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_emailTxtActionPerformed
-
-    private void comboStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboStatusActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboStatusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -276,12 +253,10 @@ public class SignupPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton SignUpButton;
-    private javax.swing.JComboBox<String> comboStatus;
     private javax.swing.JTextField emailTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel namaLabel;
     private javax.swing.JTextField namaTxt;
     private javax.swing.JLabel passwordLabel;

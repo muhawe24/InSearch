@@ -262,7 +262,7 @@ public class hasilSearch extends javax.swing.JFrame {
         detail.letakTxt.setText(letak);
         detail.deskripsiTxt.setText(deskripsi);
         
-        
+        this.dispose();
         
         
     }//GEN-LAST:event_jTable1MouseClicked
